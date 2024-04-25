@@ -1,0 +1,17 @@
+{
+  "name": "wp-launchpad/options",
+  "description": "Options library for Launchpad",
+  "autoload": {
+    "psr-4": {
+      "LaunchpadOptions\\": "inc/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "LaunchpadOptions\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "php": ">=7.0"
+  }
+}
