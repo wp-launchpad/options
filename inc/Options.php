@@ -2,10 +2,16 @@
 
 namespace LaunchpadOptions;
 
+use LaunchpadOptions\Interfaces\OptionsInterface;
+use LaunchpadOptions\Traits\PrefixedKeyTrait;
+
 /**
  * Manages single site options using the WordPress options API.
  */
-class Options extends AbstractOptions {
+class Options implements OptionsInterface {
+
+    use PrefixedKeyTrait;
+
     /**
      * Constructor
      *
@@ -24,7 +30,7 @@ class Options extends AbstractOptions {
      * @return mixed
      */
     public function get( string $name, $default = null ) {
-        $option = get_option( $this->get_option_name( $name ), $default );
+        $option = get_option( $this->get_full_key( $name ), $default );
 
         if ( is_array( $default ) && ! is_array( $option ) ) {
             $option = (array) $option;
@@ -42,7 +48,7 @@ class Options extends AbstractOptions {
      * @return void
      */
     public function set( string $name, $value ) {
-        update_option( $this->get_option_name( $name ), $value );
+        update_option( $this->get_full_key( $name ), $value );
     }
 
     /**
@@ -53,6 +59,6 @@ class Options extends AbstractOptions {
      * @return void
      */
     public function delete( string $name ) {
-        delete_option( $this->get_option_name( $name ) );
+        delete_option( $this->get_full_key( $name ) );
     }
 }
