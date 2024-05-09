@@ -36,7 +36,7 @@ class Settings implements Interfaces\SettingsInterface
     {
         $this->options = $options;
         $this->settings_key = $settings_key;
-        $this->settings = $this->options->get($settings_key, []);
+        $this->settings = (array) $this->options->get($settings_key, []);
     }
 
     /**
@@ -49,7 +49,7 @@ class Settings implements Interfaces\SettingsInterface
          *
          * @param mixed $default The default value.
          */
-        $value = apply_filters( "pre_get_{$this->settings}_" . $name, null, $default ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+        $value = apply_filters( "pre_get_{$this->settings_key}_" . $name, null, $default ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
         if ( null !== $value ) {
             return $value;
@@ -64,7 +64,7 @@ class Settings implements Interfaces\SettingsInterface
          *
          * @param mixed $default The default value.
          */
-        return apply_filters( "get_{$this->settings}" . $name, $this->settings[$name], $default ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+        return apply_filters( "get_{$this->settings_key}" . $name, $this->settings[$name], $default ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
     }
 
     /**
