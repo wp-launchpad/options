@@ -3,30 +3,15 @@ declare(strict_types=1);
 
 namespace LaunchpadOptions\Interfaces;
 
+use LaunchpadOptions\Interfaces\Actions\DeleteInterface;
+use LaunchpadOptions\Interfaces\Actions\FetchInterface;
+use LaunchpadOptions\Interfaces\Actions\FetchPrefixInterface;
+
 /**
  * Define mandatory methods to implement when using this package
  */
-interface TransientsInterface
+interface TransientsInterface extends FetchPrefixInterface, DeleteInterface, FetchInterface
 {
-    /**
-     * Gets the transient name used to store the transient in the WordPress database.
-     *
-     * @param string $name Unprefixed name of the transient.
-     *
-     * @return string
-     */
-    public function get_full_key( string $name): string;
-
-    /**
-     * Gets the transient for the given name. Returns the default value if the value does not exist.
-     *
-     * @param string $name   Name of the transient to get.
-     * @param mixed  $default Default value to return if the value does not exist.
-     *
-     * @return mixed
-     */
-    public function get( string $name, $default = null );
-
     /**
      * Sets the value of an transient. Update the value if the transient for the given name already exists.
      *
@@ -37,22 +22,4 @@ interface TransientsInterface
      * @return void
      */
     public function set( string $name, $value, int $expiration = 0 );
-
-    /**
-     * Deletes the transient with the given name.
-     *
-     * @param string $name Name of the transient to delete.
-     *
-     * @return void
-     */
-    public function delete( string $name );
-
-    /**
-     * Checks if the transient with the given name exists.
-     *
-     * @param string $name Name of the transient to check.
-     *
-     * @return bool
-     */
-    public function has( string $name ): bool;
 }
