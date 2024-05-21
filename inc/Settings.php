@@ -107,4 +107,36 @@ class Settings implements Interfaces\SettingsInterface
 
         do_action("persist_{$this->settings_key}", $this->settings);
     }
+
+    /**
+     * Import multiple values at once.
+     *
+     * @param array<string,mixed> $values Values to import.
+     *
+     * @return void
+     */
+    public function import(array $values)
+    {
+        foreach ($values as $name => $value) {
+            $this->settings[$name] = $value;
+        }
+
+        $this->persist();
+    }
+
+    /**
+     * Export settings values.
+     *
+     * @return array<string,mixed>
+     */
+    public function dumps(): array
+    {
+        $output = [];
+
+        foreach ($this->settings as $name => $value) {
+            $output[$name] = $this->get($name);
+        }
+
+        return $output;
+    }
 }
