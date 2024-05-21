@@ -1,6 +1,6 @@
 ## Options
 
-This library offer OOP facades to work with options and transients in WordPress.
+This library offers OOP facades to work with options and transients in WordPress.
 
 ### Install
 
