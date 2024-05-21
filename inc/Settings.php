@@ -107,4 +107,18 @@ class Settings implements Interfaces\SettingsInterface
 
         do_action("persist_{$this->settings_key}", $this->settings);
     }
+
+    public function import(array $values)
+    {
+        foreach ($values as $name => $value) {
+            $this->settings[$name] = $value;
+        }
+
+        $this->persist();
+    }
+
+    public function dumps(): array
+    {
+        return $this->settings;
+    }
 }
