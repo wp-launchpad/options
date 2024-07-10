@@ -15,9 +15,9 @@ class Set implements SetInterface
      * @param array $values
      * @param string $slug
      */
-    public function __construct(array $values, string $slug)
+    public function __construct( $values, string $slug )
     {
-        $this->values = $values;
+        $this->values = (array) $values;
         $this->slug = $slug;
     }
 

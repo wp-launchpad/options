@@ -61,4 +61,9 @@ class Options implements OptionsInterface {
     public function delete( string $name ) {
         delete_option( $this->get_full_key( $name ) );
     }
+
+    public function get_option_name(string $name): string
+    {
+        return  $this->get_full_key($name);
+    }
 }
