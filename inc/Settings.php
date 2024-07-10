@@ -36,7 +36,7 @@ class Settings implements Interfaces\SettingsInterface
     {
         $this->options = $options;
         $this->settings_key = $settings_key;
-        $this->settings = (array) $this->options->get($settings_key, []);
+        $this->settings = new Set($this->options->get($settings_key, []), $this->settings_key);
     }
 
     /**
@@ -44,27 +44,7 @@ class Settings implements Interfaces\SettingsInterface
      */
     public function get(string $name, $default = null)
     {
-        /**
-         * Pre-filter any setting before read
-         *
-         * @param mixed $default The default value.
-         */
-        $value = apply_filters( "pre_get_{$this->settings_key}_" . $name, null, $default ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-
-        if ( null !== $value ) {
-            return $value;
-        }
-
-        if( ! $this->has($name)) {
-            return $default;
-        }
-
-        /**
-         * Filter any setting after read
-         *
-         * @param mixed $default The default value.
-         */
-        return apply_filters( "get_{$this->settings_key}" . $name, $this->settings[$name], $default ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+        return $this->settings->get($name, $default);
     }
 
     /**
@@ -72,7 +52,7 @@ class Settings implements Interfaces\SettingsInterface
      */
     public function set(string $name, $value)
     {
-        $this->settings[$name] = $value;
+        $this->settings->set($name, $value);
 
         $this->persist();
     }
@@ -82,7 +62,7 @@ class Settings implements Interfaces\SettingsInterface
      */
     public function delete(string $name)
     {
-        unset($this->settings[$name]);
+        $this->settings->delete($name);
 
         $this->persist();
     }
@@ -92,7 +72,7 @@ class Settings implements Interfaces\SettingsInterface
      */
     public function has(string $name): bool
     {
-        return key_exists($name, $this->settings);
+        return $this->settings->has($name);
     }
 
     /**
@@ -117,9 +97,7 @@ class Settings implements Interfaces\SettingsInterface
      */
     public function import(array $values)
     {
-        foreach ($values as $name => $value) {
-            $this->settings[$name] = $value;
-        }
+        $this->settings->set_values($values);
 
         $this->persist();
     }
@@ -131,12 +109,6 @@ class Settings implements Interfaces\SettingsInterface
      */
     public function dumps(): array
     {
-        $output = [];
-
-        foreach ($this->settings as $name => $value) {
-            $output[$name] = $this->get($name);
-        }
-
-        return $output;
+        return $this->settings->get_values();
     }
 }
