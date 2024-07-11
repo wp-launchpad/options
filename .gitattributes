@@ -6,3 +6,4 @@ readme.md export-ignore
 composer.lock export-ignore
 
 tests export-ignore
+phpcs.xml
