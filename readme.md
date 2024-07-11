@@ -74,7 +74,7 @@ The advantage compared to options is that it is possible to mass update them or 
 
 To use settings with that library you need first to instantiate the class and provide it a prefix:
 ```php
-$settings = new \LaunchpadOptions\Settings(new Options('my_prefix'), 'my_settings_prefix');
+$settings = new \LaunchpadOptions\Settings(new \LaunchpadOptions\Options('my_prefix'), 'my_settings_prefix');
 ```
 
 Note: By convention your prefix should be your plugin or theme name.
@@ -95,9 +95,9 @@ Sets are a way to easily interact with array data coming from an option.
 
 To use set with that library you need first to instantiate the class and provide it a prefix:
 ```php
-$set = new \LaunchpadOptions\Set('my_prefix', [
+$set = new \LaunchpadOptions\Set([
     'key' => 'value'
-]);
+], 'my_prefix');
 ```
 
 Note: The prefix is actually important for filters within the class.
