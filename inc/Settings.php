@@ -94,11 +94,11 @@ class Settings implements Interfaces\SettingsInterface {
 	 * @return void
 	 */
 	protected function persist() {
-		do_action( "pre_persist_{$this->settings_key}", $this->settings );
+		do_action( "pre_persist_{$this->settings_key}", $this->settings->get_values() );
 
-		$this->options->set( $this->settings_key, $this->settings );
+		$this->options->set( $this->settings_key, $this->settings->get_values() );
 
-		do_action( "persist_{$this->settings_key}", $this->settings );
+		do_action( "persist_{$this->settings_key}", $this->settings->get_values() );
 	}
 
 	/**
